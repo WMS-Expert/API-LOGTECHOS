@@ -1,0 +1,524 @@
+{
+  "info": {
+    "name": "API Expertos - SQL Server",
+    "description": "Collection completa para testar todos os endpoints da API Expertos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Verifica se a API está funcionando e lista todos os endpoints disponíveis"
+      },
+      "response": []
+    },
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Consultar Cliente por CNPJ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/cliente/12345678901234",
+              "host": ["{{base_url}}"],
+              "path": ["api", "cliente", "12345678901234"]
+            },
+            "description": "Consulta um cliente específico pelo CNPJ (14 caracteres)"
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/cliente/12345678901234",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "cliente", "12345678901234"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id_cliente\": 1,\n    \"cnpj\": \"12345678901234\",\n    \"Nome\": \"Empresa Exemplo LTDA\"\n  }\n}"
+            },
+            {
+              "name": "Cliente não encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/cliente/99999999999999",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "cliente", "99999999999999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Cliente não encontrado\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Cadastrar Novo Cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cnpj\": \"12345678901234\",\n  \"nome\": \"Empresa Exemplo LTDA\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cliente",
+              "host": ["{{base_url}}"],
+              "path": ["api", "cliente"]
+            },
+            "description": "Cadastra um novo cliente no sistema"
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cnpj\": \"12345678901234\",\n  \"nome\": \"Empresa Exemplo LTDA\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cliente",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "cliente"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Cliente cadastrado com sucesso\",\n  \"data\": []\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sistemas",
+      "item": [
+        {
+          "name": "Listar Todos os Sistemas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/sistemas",
+              "host": ["{{base_url}}"],
+              "path": ["api", "sistemas"]
+            },
+            "description": "Lista todos os sistemas cadastrados no banco de dados"
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/sistemas",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "sistemas"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"ID_SISTEMA\": 1,\n      \"SISTEMA\": \"Sistema Financeiro\"\n    },\n    {\n      \"ID_SISTEMA\": 2,\n      \"SISTEMA\": \"Sistema de RH\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rotinas",
+      "item": [
+        {
+          "name": "Listar Rotinas por Sistema",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/rotinas/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "rotinas", "1"]
+            },
+            "description": "Lista todas as rotinas de um sistema específico"
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/rotinas/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "rotinas", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"ID_ROTINA\": 10,\n      \"ROTINA\": \"Cadastro de Clientes\"\n    },\n    {\n      \"ID_ROTINA\": 11,\n      \"ROTINA\": \"Emissão de Notas\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ordem de Serviço (OS)",
+      "item": [
+        {
+          "name": "Cabeçalho Painel de OS",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/painel-os-cabecalho?dataini=2025-10-01",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painel-os-cabecalho"],
+              "query": [
+                {
+                  "key": "dataini",
+                  "value": "2025-10-01",
+                  "description": "Data inicial (formato YYYY-MM-DD) - OBRIGATÓRIO"
+                }
+              ]
+            },
+            "description": "Retorna os totalizadores do painel de OS a partir da data informada. Contabiliza: Total de OS (exceto status 99), Finalizadas (status 5), Pendentes (status 2 e 88) e Em Desenvolvimento (status 3)"
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/painel-os-cabecalho?dataini=2025-10-01",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "painel-os-cabecalho"],
+                  "query": [
+                    {
+                      "key": "dataini",
+                      "value": "2025-10-01"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"QtdOS\": 150,\n    \"QtdFinalizada\": 85,\n    \"QtdPendente\": 42,\n    \"QtdDesenvolvimento\": 23\n  },\n  \"filtros\": {\n    \"dataini\": \"2025-10-01\"\n  }\n}"
+            },
+            {
+              "name": "Erro - Parâmetro Faltando",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/painel-os-cabecalho",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "painel-os-cabecalho"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"O parâmetro dataini é obrigatório\",\n  \"example\": \"/api/painel-os-cabecalho?dataini=2025-10-01\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Painel de OS",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/painel-os?dataini=2025-10-01&datafim=2025-10-31",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painel-os"],
+              "query": [
+                {
+                  "key": "dataini",
+                  "value": "2025-10-01",
+                  "description": "Data inicial (formato YYYY-MM-DD) - OBRIGATÓRIO"
+                },
+                {
+                  "key": "datafim",
+                  "value": "2025-10-31",
+                  "description": "Data final (formato YYYY-MM-DD) - OBRIGATÓRIO"
+                }
+              ]
+            },
+            "description": "Retorna o painel com todas as OS abertas no período especificado, excluindo status 5, 88 e 99. Calcula o tempo de abertura em dias úteis considerando horário comercial (08:00 às 18:00). Os parâmetros dataini e datafim são OBRIGATÓRIOS."
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/painel-os?dataini=2025-10-01&datafim=2025-10-31",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "painel-os"],
+                  "query": [
+                    {
+                      "key": "dataini",
+                      "value": "2025-10-01"
+                    },
+                    {
+                      "key": "datafim",
+                      "value": "2025-10-31"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"ID_OS\": 1001,\n      \"Cliente\": \"Empresa Exemplo LTDA\",\n      \"TITULO\": \"Correção de Bug Crítico\",\n      \"Data_OS\": \"2025-10-05\",\n      \"ID_STATUS\": 2,\n      \"Status\": \"Em Andamento\",\n      \"TempoAbertura\": \"2d 05:30:00\",\n      \"Prioridade\": \"Alta\"\n    },\n    {\n      \"ID_OS\": 1002,\n      \"Cliente\": \"Tech Solutions SA\",\n      \"TITULO\": \"Nova Funcionalidade\",\n      \"Data_OS\": \"2025-10-06\",\n      \"ID_STATUS\": 1,\n      \"Status\": \"Aberta\",\n      \"TempoAbertura\": \"1d 03:15:45\",\n      \"Prioridade\": \"Normal\"\n    }\n  ],\n  \"total\": 2,\n  \"filtros\": {\n    \"dataini\": \"2025-10-01\",\n    \"datafim\": \"2025-10-31\"\n  }\n}"
+            },
+            {
+              "name": "Erro - Parâmetros Faltando",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/painel-os",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "painel-os"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Os parâmetros dataini e datafim são obrigatórios\",\n  \"example\": \"/api/painel-os?dataini=2025-10-01&datafim=2025-10-31\"\n}"
+            },
+            {
+              "name": "Erro - Formato Inválido",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/painel-os?dataini=01/10/2025&datafim=31/10/2025",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "painel-os"],
+                  "query": [
+                    {
+                      "key": "dataini",
+                      "value": "01/10/2025"
+                    },
+                    {
+                      "key": "datafim",
+                      "value": "31/10/2025"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Formato de data inválido. Use o formato YYYY-MM-DD\",\n  \"example\": \"dataini=2025-10-01&datafim=2025-10-31\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Criar OS - Sem Imagem",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Correção de Bug no Sistema Financeiro\",\n  \"descricao\": \"Corrigir erro no cálculo de juros do módulo de contas a receber. O sistema está calculando valores incorretos quando há parcelas vencidas.\",\n  \"id_cliente\": 1,\n  \"id_sistema\": 1,\n  \"id_rotina\": 10\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/os",
+              "host": ["{{base_url}}"],
+              "path": ["api", "os"]
+            },
+            "description": "Cria uma nova Ordem de Serviço sem anexar imagem"
+          },
+          "response": []
+        },
+        {
+          "name": "Criar OS - Com Imagem",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Implementar Nova Funcionalidade\",\n  \"descricao\": \"Desenvolver tela de relatório gerencial com gráficos de desempenho mensal e anual. Incluir filtros por período e departamento.\",\n  \"id_cliente\": 1,\n  \"id_sistema\": 2,\n  \"id_rotina\": 15,\n  \"descricao_imagem\": \"Mockup da tela de relatórios\",\n  \"tipo\": \"png\",\n  \"imagem\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/os",
+              "host": ["{{base_url}}"],
+              "path": ["api", "os"]
+            },
+            "description": "Cria uma nova Ordem de Serviço com imagem anexada em base64"
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"Correção de Bug\",\n  \"descricao\": \"Corrigir erro no sistema\",\n  \"id_cliente\": 1,\n  \"id_sistema\": 1,\n  \"id_rotina\": 10\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/os",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "os"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"OS criada com sucesso\",\n  \"data\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Criar OS - Completa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Manutenção Preventiva - Sistema de Backup\",\n  \"descricao\": \"Realizar manutenção preventiva no sistema de backup automático. Verificar logs de erro, otimizar scripts e testar restauração de dados.\",\n  \"id_cliente\": 5,\n  \"id_sistema\": 3,\n  \"id_rotina\": 25,\n  \"descricao_imagem\": \"Screenshot dos logs de erro\",\n  \"tipo\": \"jpg\",\n  \"imagem\": \"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k=\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/os",
+              "host": ["{{base_url}}"],
+              "path": ["api", "os"]
+            },
+            "description": "Cria uma OS completa com todos os campos preenchidos"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
